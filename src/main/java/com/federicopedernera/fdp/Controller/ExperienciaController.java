@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,16 @@ public class ExperienciaController {
         return new  ResponseEntity(list, HttpStatus.OK);
     }
     
+     @GetMapping("/detail/{id}")
+    public ResponseEntity<Experiencia> getById(@PathVariable("id") int id){
+        if(!impExperienciaService.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Experiencia experiencia = impExperienciaService.getOne(id).get();
+        return new ResponseEntity(experiencia, HttpStatus.OK);
+    }
+    
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public  ResponseEntity<?> create(@RequestBody DtoExperiencia dtoExp){
         if(StringUtils.isBlank(dtoExp.getNombreExp())){
@@ -50,7 +61,7 @@ public class ExperienciaController {
         impExperienciaService.save(experiencia);
         return new ResponseEntity(new Mensaje("Experiencia creada"), HttpStatus.OK);
     }
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoExperiencia dtoExp){
         if(!impExperienciaService.existsById(id)){
@@ -76,7 +87,8 @@ public class ExperienciaController {
        
     }
     
-     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?>delete(@PathVariable("id") int id){
         if(!impExperienciaService.existsById(id)){
              return new ResponseEntity(new Mensaje("El id no existe"), HttpStatus.BAD_REQUEST);

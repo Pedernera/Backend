@@ -58,7 +58,7 @@ public class PersonaController {
         return persona;
     } 
     
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("personas/update/{id}")
     public ResponseEntity<?>update(@PathVariable Long id, @RequestBody DtoPersona dtoPer){
         Persona persona = iPersonaService.findPersona(id);
