@@ -50,14 +50,20 @@ public class ExperienciaController {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         }
         
-         if(StringUtils.isBlank(dtoExp.getDescripcionExp())){
+        if(StringUtils.isBlank(dtoExp.getDescripcionExp())){
             return new ResponseEntity(new Mensaje("La descripcion es obligatorio"), HttpStatus.BAD_REQUEST);
         }
+        
+        if(dtoExp.getFechaInicioExp() == null){
+            return new ResponseEntity(new Mensaje("La fecha inical es obligatoria"), HttpStatus.BAD_REQUEST);
+        } 
         if(impExperienciaService.existByNombreExp(dtoExp.getNombreExp())){
             return new ResponseEntity(new Mensaje("La experiencia ya existe"), HttpStatus.BAD_REQUEST);
         }
         
-        Experiencia experiencia = new Experiencia(dtoExp.getNombreExp(), dtoExp.getDescripcionExp());
+        
+        
+        Experiencia experiencia = new Experiencia(dtoExp.getNombreExp(), dtoExp.getDescripcionExp(), dtoExp.getFechaInicioExp(), dtoExp.getFechaFinalExp());
         impExperienciaService.save(experiencia);
         return new ResponseEntity(new Mensaje("Experiencia creada"), HttpStatus.OK);
     }
@@ -82,6 +88,8 @@ public class ExperienciaController {
        Experiencia exp = impExperienciaService.getOne(id).get();
        exp.setNombreExp(dtoExp.getNombreExp());
        exp.setDescripcionExp(dtoExp.getDescripcionExp());
+       exp.setFechaInicioExp(dtoExp.getFechaInicioExp());
+       exp.setFechaFinalExp(dtoExp.getFechaFinalExp());
        impExperienciaService.save(exp);
        return new ResponseEntity(new Mensaje("Experiencia actualizada"), HttpStatus.OK);
        

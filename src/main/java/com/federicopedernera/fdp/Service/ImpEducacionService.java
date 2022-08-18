@@ -1,7 +1,6 @@
 
 package com.federicopedernera.fdp.Service;
 
-import org.springframework.stereotype.Service;
 import com.federicopedernera.fdp.Entity.Educacion;
 import com.federicopedernera.fdp.Repository.IEducacionRepository;
 import java.util.List;

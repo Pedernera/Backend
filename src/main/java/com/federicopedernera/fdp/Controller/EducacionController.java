@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.federicopedernera.fdp.Controller;
 
 import com.federicopedernera.fdp.Dto.DtoEducacion;
@@ -45,14 +41,19 @@ public class EducacionController {
             return new ResponseEntity(new Mensaje("El titulo es obligatorio"), HttpStatus.BAD_REQUEST);
         }
         
-         if(StringUtils.isBlank(dtoEdu.getNomInstituto())){
+        if(StringUtils.isBlank(dtoEdu.getNomInstituto())){
             return new ResponseEntity(new Mensaje("El nombre del instituto es obligatorio"), HttpStatus.BAD_REQUEST);
         }
+         
+    
         if(impEducacionService.existByTituloEdu(dtoEdu.getTituloEdu())){
             return new ResponseEntity(new Mensaje("La educacion ya existe"), HttpStatus.BAD_REQUEST);
         }
-        
-        Educacion edu = new Educacion(dtoEdu.getTituloEdu(), dtoEdu.getNomInstituto());
+         if(dtoEdu.getFechaInicioEdu() == null){
+            return new ResponseEntity(new Mensaje("La fecha inicial es obligatoria"), HttpStatus.BAD_REQUEST);
+        } 
+       
+        Educacion edu = new Educacion(dtoEdu.getTituloEdu(), dtoEdu.getNomInstituto(), dtoEdu.getFechaInicioEdu(), dtoEdu.getFechaFinalEdu());
         impEducacionService.save(edu);
         return new ResponseEntity(new Mensaje("Educacion creada"), HttpStatus.OK);
     }
@@ -79,6 +80,8 @@ public class EducacionController {
        Educacion edu = impEducacionService.getOne(id).get();
        edu.setTituloEdu(dtoEdu.getTituloEdu());
        edu.setNomInstituto(dtoEdu.getNomInstituto());
+       edu.setFechaInicioEdu(dtoEdu.getFechaInicioEdu());
+       edu.setFechaFinalEdu(dtoEdu.getFechaFinalEdu());
        impEducacionService.save(edu);
        return new ResponseEntity(new Mensaje("Educacion actualizada"), HttpStatus.OK);
        

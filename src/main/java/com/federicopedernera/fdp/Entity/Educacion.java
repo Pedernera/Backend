@@ -1,6 +1,7 @@
 
 package com.federicopedernera.fdp.Entity;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,15 +18,40 @@ public class Educacion {
     private String tituloEdu;
     @NotNull
     private String nomInstituto;
-
+    
+    @NotNull
+    private Date fechaInicioEdu;
+    
+    private Date fechaFinalEdu;
     public Educacion() {
     }
 
-    public Educacion(String tituloEdu, String nomInstituto) {
+    public Educacion(String tituloEdu, String nomInstituto, Date fechaInicioEdu, Date fechaFinalEdu) {
         this.tituloEdu = tituloEdu;
         this.nomInstituto = nomInstituto;
+        this.fechaInicioEdu = fechaInicioEdu;
+        this.fechaFinalEdu = fechaFinalEdu;
     }
 
+    public Date getFechaInicioEdu() {
+        return fechaInicioEdu;
+    }
+
+    public void setFechaInicioEdu(Date fechaInicioEdu) {
+        this.fechaInicioEdu = fechaInicioEdu;
+    }
+
+    public Date getFechaFinalEdu() {
+        return fechaFinalEdu;
+    }
+
+    public void setFechaFinalEdu(Date fechaFinalEdu) {
+        this.fechaFinalEdu = fechaFinalEdu;
+    }
+
+ 
+
+   
     public int getId() {
         return id;
     }
